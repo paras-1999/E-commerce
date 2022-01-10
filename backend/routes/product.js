@@ -3,6 +3,7 @@ const prouter = express.Router();
 const productModel = require('../db/Product');
 const categoryModel = require('../db/Category')
 const colorModel = require('../db/Color')
+const cartModel = require('../db/PendingCart')
 prouter.get('/all', (req, res) => {
     if (Object.keys(req.query).length == 0) {
         productModel.find()
@@ -50,6 +51,44 @@ prouter.get('/category', (req, res) => {
         .then(cat => {
             res.send(cat)
         })
+})
+prouter.post('/pendinglist/:email', (req, res) => {
+    cartModel.findOne({ email: req.params.email }).exec(async (err, data) => {
+        if (data == null) {
+            let ins = await new cartModel({ email: req.params.email, items: req.body });
+            ins.save();
+        }
+        else {
+            let up = await cartModel.findOneAndUpdate({ email: req.params.email }, { items: req.body })
+            up.save();
+        }
+        res.end();
+    })
+})
+prouter.get('/pendingcart/:email', (req, res) => {
+    cartModel.findOne({ email: req.params.email }).exec(async (err, data) => {
+        if (data == null) {
+            res.send(false)
+        }
+        else {
+            await cartModel.deleteOne({ email: req.params.email })
+            res.send(data)
+        }
+
+    })
+})
+prouter.get('/viewproduct', (req, res) => {
+    productModel.findOne(req.query).populate(["category_id", "color_id"]).exec((err, data) => {
+        if (err) {
+            res.send(false)
+        }
+        else if (data == null) {
+            res.send(false)
+        }
+        else {
+            res.send(data)
+        }
+    })
 })
 module.exports = prouter;
 

@@ -412,3 +412,178 @@ a {
 .subimages:active {
   transform: scale(1);
 }
+
+.cartitem {
+  height: 150px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.cartitem img {
+  height: 130px;
+  border-radius: 10px;
+  width: 130px;
+  margin: 10px;
+}
+
+.cartitem button {
+  height: 40px;
+  width: 40px;
+  font-weight: bolder;
+  font-size: 22px;
+  padding-top: 0px;
+}
+
+.cartitem span {
+  display: inline-block;
+  text-align: center;
+  margin: 10px;
+  width: 50px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.cartitem h5 {
+  max-width: 100px;
+}
+
+.cartitem h4 {
+  width: 100px;
+
+}
+
+.cal {
+
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  margin-top: 10px;
+  padding: 28px;
+}
+
+.cal>h5 {
+  margin: 10px auto;
+}
+
+#notfound {
+  text-align: center;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 120px;
+
+}
+
+.debitcard,
+.bill {
+  height: 300px;
+  width: 500px;
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+}
+
+.bill {
+  padding: 20px 50px
+}
+
+.debitcard {
+  background-color: #0093E9;
+  background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+}
+
+.worldmap {
+  background-image: url('../public/images/worldmap.svg');
+  height: 100px;
+  width: 300px;
+  position: absolute;
+  top: 10px;
+}
+
+.visa {
+  background-image: url('../public/images/visa.png');
+  height: 50px;
+  width: 160px;
+  position: absolute;
+  top: 20px;
+  background-size: cover;
+  right: 20px;
+}
+
+.cardno {
+  position: absolute;
+  top: 160px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cardno>input::-webkit-outer-spin-button,
+.cardno>input::-webkit-inner-spin-button,
+.cvv>input::-webkit-outer-spin-button,
+.cvv>input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.cardno>input {
+  border: 2px solid white;
+  border-radius: 8px;
+  width: 20%;
+  font-size: x-large;
+  padding: 0;
+  letter-spacing: 5px;
+  padding-left: 7px;
+}
+
+.cardholder {
+  position: absolute;
+  bottom: 1px;
+  left: 8px;
+  max-width: fit-content;
+
+}
+
+.cardholder>p {
+  color: white;
+  letter-spacing: 4px;
+  font-weight: bold;
+  margin: -8px 11px;
+}
+
+.cardholder>input[type=text] {
+
+  margin-top: -10px;
+}
+
+.cvv {
+  position: absolute;
+  bottom: 1px;
+  right: 0px;
+  max-width: max-content;
+}
+
+.cvv>p {
+  color: white;
+  letter-spacing: 4px;
+  font-weight: bold;
+  margin: -8px 11px;
+}
+
+.cvv>input[type=number] {
+  border: 2px solid white;
+  border-radius: 8px;
+  width: 30%;
+  font-size: large;
+  letter-spacing: 5px;
+  padding-left: 7px;
+
+}

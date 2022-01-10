@@ -46,6 +46,23 @@ export function getAddress(email) {
 export function removeAdd(data, email) {
     return axios.put(`${MAIN_URL}user/removeaddress/${email}`, data);
 }
+export function pendingList(data, email) {
+    return axios.post(`${MAIN_URL}products/pendinglist/${email}`, data);
+}
+export function pendingCart(email) {
+    return axios.get(`${MAIN_URL}products/pendingcart/${email}`);
+}
+export function viewProduct(id) {
+    return axios.get(`${MAIN_URL}products/viewproduct/${id}`);
+}
+export function authenticationCall(token) {
+    return axios.get(`${MAIN_URL}user/verfiy`, {
+        headers: { "authorization": `Bearer ${token}` }
+    });
+}
+export function placeOrder(data) {
+    return axios.post(`${MAIN_URL}user/placeorder`, data);
+}
 // export function getmenu(token) {
 //     return axios.get(`${MAIN_URL}getmenu`, {
 //         headers: { "authorization": `Bearer ${token}` }

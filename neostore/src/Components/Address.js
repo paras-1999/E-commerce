@@ -22,14 +22,14 @@ export default function Address() {
     }, [])
     const getstates = () => {
         axios.get("https://www.universal-tutorial.com/api/states/India", {
-            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoialdzbzZTVlVuVlFZVmV1YXBxRnhyeXZIU2gyRDFHYXZSX0ROVG1oTnlXN0FOTlpXN05XZTRqRE5fZjY1aEJlTjBpcyJ9LCJleHAiOjE2NDE0NTYwMDF9.fU8wJUVP3ygF4D5ifq0p4w6vAmStmmRCatGLlhszhHI` }
+            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnMxMjNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiTFJWbnF5aHhIUU5nWWdnRExEWGJ6NGoxNVVQSFhaaUFaLWlfb3o1amF1M0ZrQk5EelVFTlRXWXdha2ZRdUFCU3hBYyJ9LCJleHAiOjE2NDE1NTA0NjF9.cuHoxme3xNIFHfsb7UqJy8amNLnCsW5Hip_nWf1Kv0M` }
         }).then(res => {
             setStates(res.data);
         })
     }
     const getcitys = (s) => {
         axios.get(`https://www.universal-tutorial.com/api/cities/${s}`, {
-            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoialdzbzZTVlVuVlFZVmV1YXBxRnhyeXZIU2gyRDFHYXZSX0ROVG1oTnlXN0FOTlpXN05XZTRqRE5fZjY1aEJlTjBpcyJ9LCJleHAiOjE2NDE0NTYwMDF9.fU8wJUVP3ygF4D5ifq0p4w6vAmStmmRCatGLlhszhHI` }
+            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnMxMjNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiTFJWbnF5aHhIUU5nWWdnRExEWGJ6NGoxNVVQSFhaaUFaLWlfb3o1amF1M0ZrQk5EelVFTlRXWXdha2ZRdUFCU3hBYyJ9LCJleHAiOjE2NDE1NTA0NjF9.cuHoxme3xNIFHfsb7UqJy8amNLnCsW5Hip_nWf1Kv0M` }
         }).then(res => {
             setCity(res.data);
         })

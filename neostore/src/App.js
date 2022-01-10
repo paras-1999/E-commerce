@@ -12,6 +12,8 @@ const Forgetpass = React.lazy(() => import('./Components/Forgetpass'))
 const ChangePass = React.lazy(() => import('./Components/ChangePass'))
 const UpdateProfile = React.lazy(() => import('./Components/UpdateProfile'))
 const Address = React.lazy(() => import('./Components/Address'))
+const ViewProduct = React.lazy(() => import('./Components/ViewProduct'))
+const Checkout = React.lazy(() => import('./Components/Checkout'))
 function App() {
   return (
     <Router>
@@ -21,7 +23,9 @@ function App() {
             <Route path="" element={<Home />} />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />
+            <Route path="viewdetails" element={<ViewProduct />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="checkout" element={<Checkout />} />
             <Route path="profile" element={<Profile />} >
               <Route path="update" element={<UpdateProfile />} />
               <Route path="address" element={<Address />} />

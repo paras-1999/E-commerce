@@ -20,7 +20,7 @@ export default function Profile() {
             <Link to='/profile/address'><button className="hbutton"><i className="bi bi-house-door-fill">&nbsp;</i> &nbsp; Manage Address</button></Link>
             <Link to='/profile/changepass'><button className="hbutton"><i className="bi bi-arrow-left-right">&nbsp;</i> &nbsp; Change Password</button></Link>
         </div>
-        <Outlet user={profile} />
+        <Outlet />
     </div>}</>
 
     )

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { getCategories, getColors, getproducts } from '../config/Myservice';
 import ReactPaginate from 'react-paginate';
-import { Card, Button, Col, Row, Form, NavDropdown, Modal, Nav } from 'react-bootstrap';
+import { Card, Button, Col, Row, Form, NavDropdown, Alert } from 'react-bootstrap';
 import Rating from './Rating';
-import { useLocation } from 'react-router-dom';
-// import { ShareSocial } from 'react-share-social';
-import { FacebookShareButton, TwitterShareButton, EmailShareButton, WhatsappShareButton, PinterestShareButton } from "react-share";
-import { FacebookIcon, TwitterIcon, EmailIcon, PinterestIcon, WhatsappIcon } from "react-share";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../redux/action'
 export default function Products() {
     const [products, setProducts] = useState([]);
     const [colors, setColors] = useState([]);
     const [category, setCategory] = useState([]);
-    const [show, setShow] = useState(false);
-    const [details, setDetails] = useState(null);
-    const [index, setIndex] = useState(0)
+    const [err, setErr] = useState({ msg: "", show: false });
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     useEffect(() => {
         getproducts(location.search).then((res) => {
             setProducts(res.data)
@@ -26,6 +25,28 @@ export default function Products() {
             setCategory(res.data)
         })
     }, [])
+    const cartCheck = (item) => {
+        let list = [];
+        const x = { id: item._id, pname: item.product_name, pimg: item.product_image, price: item.product_cost, quantity: 1 };
+        if (localStorage.getItem('cart') != undefined) {
+            list = JSON.parse(localStorage.getItem('cart'));
+            let result = list.find(({ id }) => id === item._id);
+            if (result !== undefined) {
+                setErr({ msg: `${item.product_name} Is In Cart Already`, show: true });
+            }
+            else {
+                list.push(x);
+                localStorage.setItem('cart', JSON.stringify(list));
+                dispatch(addToCart());
+            }
+
+        }
+        else {
+            list.push(x)
+            localStorage.setItem('cart', JSON.stringify(list));
+            dispatch(addToCart());
+        }
+    }
     function Items({ currentItems }) {
         return (
             <Row className='g-4 container-fluid my-1 pagi'>
@@ -33,11 +54,11 @@ export default function Products() {
                     currentItems.map((item, i) => (
                         <Col sm={12} md={4} key={i}>
                             <Card style={{ width: '100%' }} className='shadow'>
-                                <Card.Img variant="top" src={`./images/${item.product_image}`} height={350} style={{ cursor: "pointer" }} onClick={() => { setShow(true); setDetails(item) }} />
+                                <Card.Img variant="top" src={`./images/${item.product_image}`} height={350} style={{ cursor: "pointer" }} onClick={() => navigate(`/viewdetails?_id=${item._id}`)} />
                                 <Card.Body>
-                                    <Card.Title style={{ cursor: "pointer" }} onClick={() => { setShow(true); setDetails(item) }}>{item.product_name}</Card.Title>
+                                    <Card.Title style={{ cursor: "pointer" }} onClick={() => navigate(`/viewdetails?_id=${item._id}`)}>{item.product_name}</Card.Title>
                                     <Rating count={item.product_rating} />
-                                    <Button variant="danger">Add To Cart</Button>
+                                    <Button variant="danger" onClick={() => cartCheck(item)}>Add To Cart</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -82,7 +103,7 @@ export default function Products() {
         <div className='ppage'>
             <div>
                 <Form className='text-center'>
-                    <Button type='reset' variant='danger my-3' >All Products</Button>
+                    <Button type='reset' variant='danger my-3' onClick={() => { navigate('/products'); window.location.reload(false); }} >All Products</Button>
                     <NavDropdown.Divider className='mx-auto' style={{ width: '80%' }} />
                     {colors.map((val, i) => {
                         return (<Form.Check
@@ -116,78 +137,11 @@ export default function Products() {
                 </Form>
             </div>
             <div>
+                {err.show && <Alert variant="danger" className='mx-auto w-75 my-3' onClose={() => setErr({ msg: "", show: false })} dismissible>
+                    <Alert.Heading>{err.msg}</Alert.Heading>
+                </Alert>}
                 <PaginatedItems itemsPerPage={9} />
             </div>
-            {details && <Modal show={show} fullscreen onHide={() => { setShow(false); setIndex(0); setDetails(null); }}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{`${details.category_id.category_name} (${details.color_id.color_name})`}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <Col sx={12} md={5} lg={5}>
-                            <img src={`./images/${details.product_subimages[index]}`} height={350} style={{ cursor: '' }} className='d-block mx-auto mb-3 shadow' />
-                            <div style={{ display: "flex", justifyContent: 'space-evenly' }}>
-                                {details.product_subimages.map((val, i) =>
-                                    <img key={val} src={`./images/${details.product_subimages[i]}`} className='subimages' onClick={() => setIndex(i)} />
-                                )}
-                            </div>
-                        </Col>
-                        <Col sx={12} md={7} lg={7}>
-                            <h1>{details.product_name}</h1>
-                            <Rating count={details.product_rating} />
-                            <hr />
-                            <h5>Price : ₹<span className='text-success'>{details.product_cost}</span></h5>
-                            <h5>Color : <span style={{ display: "inline-block", height: '20px', width: "50px", borderRadius: "10px", background: details.color_id.color_code }} ></span></h5>
-                            {/* <ShareSocial
-                                url="https://github.com/paras-1999"
-                                socialTypes={['facebook', 'twitter', 'reddit', 'linkedin']}
-                            /> */}
-                            <h5 style={{ display: "inline-block" }}>Share </h5> <i class="bi bi-share-fill text-dark" style={{ fontSize: "30px", display: "inline-block" }}></i>
-                            <div style={{ display: "flex", width: "40%", justifyContent: "space-between", marginBottom: "20px" }}>
-                                <FacebookShareButton
-                                    url={"https://github.com/paras-1999"}
-                                >
-                                    <FacebookIcon size={50} round />
-                                </FacebookShareButton>
-
-                                <TwitterShareButton
-                                    url={"https://github.com/paras-1999"}
-                                >
-                                    <TwitterIcon size={50} round />
-                                </TwitterShareButton>
-
-                                <EmailShareButton
-                                    url={"https://github.com/paras-1999"}
-                                >
-                                    <EmailIcon size={50} round />
-                                </EmailShareButton>
-
-                                <WhatsappShareButton
-                                    url={"https://github.com/paras-1999"}
-                                >
-                                    <WhatsappIcon size={50} round />
-                                </WhatsappShareButton>
-
-                                <PinterestShareButton
-                                    // url={"https://github.com/paras-1999"}
-                                    url={`http://localhost:3000/images/${details.product_subimages[0]}`}
-                                >
-                                    <PinterestIcon size={50} round />
-                                </PinterestShareButton>
-                            </div>
-                            <Button variant='danger'>Add To Cart <i className="bi bi-cart2" ></i></Button>
-                            <Button variant='dark' className='m-2 text-info'>Rate Product <i className="bi bi-star-fill text-info"></i></Button>
-                            <h5>Description : </h5>
-                            <ul>
-                                <li>Category : {details.category_id.category_name}</li>
-                                <li>Color : {details.color_id.color_name}</li>
-                            </ul>
-                            <p >{details.product_desc}</p>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-            </Modal>}
-
         </div >
     )
 }

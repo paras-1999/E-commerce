@@ -6,6 +6,24 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const logerModel = require('../db/Loger');
 const nodemailer = require('nodemailer');
+const orderModel = require('../db/Orders')
+async function autenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = await authHeader && authHeader.split(' ')[1];
+    if (!token) {
+        res.json({ "err": 1, "msg": "First Login" })
+    }
+    else {
+        jwt.verify(token, jwtSecret, (err, data) => {
+            if (err) {
+                res.json({ "err": 1, "msg": "Auhentication Fail" })
+            }
+            else {
+                next();
+            }
+        })
+    }
+}
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -190,5 +208,17 @@ router.put('/removeaddress/:email', async (req, res) => {
     let up = await logerModel.findOneAndUpdate({ email: req.params.email }, { address: req.body })
     await up.save();
     res.json({ "show": true, "msg": "Removed" })
+})
+router.get('/verfiy', autenticateToken, (req, res) => {
+    res.json({ "err": 0 })
+
+})
+
+router.post('/placeorder', (req, res) => {
+    let ins = new orderModel({ ...req.body });
+    ins.save((err) => {
+        if (err) { res.send("Something went worng Order is not placed") }
+        else { res.send('Order Placed Continue Shoping ') }
+    })
 })
 module.exports = router;

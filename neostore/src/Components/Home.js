@@ -1,12 +1,12 @@
 import React from 'react'
 import { Carousel } from 'react-bootstrap'
-const thumbnail = ['shoes.jpg', 'tshirt.jpg', 'iwatch.jpg', 'iphone.jpeg']
+const thumbnail = ['shoes.jpg', 'tshirt.jpg', 'iwatch.jpg', 'iphone.jpeg'];
 export default function Home() {
     return (
         <>
             <Carousel>
-                {thumbnail.map((img) =>
-                    <Carousel.Item>
+                {thumbnail.map((img, i) =>
+                    <Carousel.Item key={i}>
                         <img
                             className="d-block w-100"
                             src={`./images/${img}`}

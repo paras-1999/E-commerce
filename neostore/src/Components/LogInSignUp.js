@@ -65,7 +65,7 @@ export default function LogInSignUp() {
         }
         else {
             loguser({ email: log.email, pass: log.pass }).then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (!res.data.show) {
                     sessionStorage.setItem("_token", res.data.token);
                     navigate('/');
@@ -86,7 +86,7 @@ export default function LogInSignUp() {
             email = user._profile.id
         }
         socialloger({ email: email, fname: user._profile.firstName, lname: user._profile.lastName }).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             if (!res.data.show) {
                 sessionStorage.setItem("_token", res.data.token);
                 navigate('/');
@@ -100,7 +100,7 @@ export default function LogInSignUp() {
 
     };
     const handleSocialLoginFailure = (err) => {
-        console.error(err);
+        // console.error(err);
         setLerr({ msg: "Something went Wrong Refresh And Try Again", show: true });
     };
     return (
@@ -113,7 +113,7 @@ export default function LogInSignUp() {
                     </svg>
                 </button>
                 <div style={{ display: w.lf }}>
-                    <h1 className='fheading'>Welcome to<Link to='/'> <spam style={{ color: '#00C2D1' }}>Neo</spam>Store </Link></h1>
+                    <h1 className='fheading'>Welcome to<Link to='/'> <span style={{ color: '#00C2D1' }}>Neo</span>Store </Link></h1>
                     <Form className='lsform' onSubmit={verify}>
                         {lerr.show && <Alert variant="warning" onClose={() => setLerr({ msg: "", show: false })} dismissible>
                             <Alert.Heading>{lerr.msg}</Alert.Heading>
@@ -155,7 +155,7 @@ export default function LogInSignUp() {
                     </svg>&nbsp;
                     SignUp</button>
                 <div style={{ display: w.sf }}>
-                    <h1 className='fheading'>Register For <spam style={{ color: '#E84855' }}>Neo</spam>Store</h1>
+                    <h1 className='fheading'>Register For <span style={{ color: '#E84855' }}>Neo</span>Store</h1>
                     <Form className='lsform' onSubmit={adduser}>
                         {err.show && <Alert variant="danger" onClose={() => setErr({ msg: "", show: false })} dismissible>
                             <Alert.Heading>{err.msg}</Alert.Heading>
