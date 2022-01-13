@@ -6,6 +6,7 @@ import { FacebookShareButton, TwitterShareButton, EmailShareButton, WhatsappShar
 import { FacebookIcon, TwitterIcon, EmailIcon, PinterestIcon, WhatsappIcon } from "react-share";
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/action'
+import Magnifier from "react-magnifier";
 import Rating from './Rating';
 export default function ViewProduct() {
     const [details, setDetails] = useState(null);
@@ -49,7 +50,8 @@ export default function ViewProduct() {
             </Alert>}
                 <Row className="container-fluid mt-3">
                     <Col sx={12} md={5} lg={5}>
-                        <img src={`./images/${details.product_subimages[index]}`} height={350} style={{ cursor: '' }} className='d-block mx-auto mb-3 shadow' />
+                        <Magnifier src={`./images/${details.product_subimages[index]}`} height={350} className='d-block mx-auto mb-3 shadow' />
+                        {/* <img src={`./images/${details.product_subimages[index]}`} height={350} style={{ cursor: '' }} className='d-block mx-auto mb-3 shadow' /> */}
                         <div style={{ display: "flex", justifyContent: 'space-evenly' }}>
                             {details.product_subimages.map((val, i) =>
                                 <img key={val} src={`./images/${details.product_subimages[i]}`} className='subimages' onClick={() => setIndex(i)} />

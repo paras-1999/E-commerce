@@ -25,6 +25,27 @@ export default function Products() {
             setCategory(res.data)
         })
     }, [])
+    const sortByRating = () => {
+        let temp = [...products];
+        let sortData = temp.sort((a, b) => {
+            return b.product_rating - a.product_rating;
+        })
+        setProducts(sortData)
+    }
+    const sortByPriceUP = () => {
+        let temp = [...products];
+        let sortData = temp.sort((a, b) => {
+            return b.product_cost - a.product_cost;
+        })
+        setProducts(sortData)
+    }
+    const sortByPriceDown = () => {
+        let temp = [...products];
+        let sortData = temp.sort((a, b) => {
+            return a.product_cost - b.product_cost;
+        })
+        setProducts(sortData)
+    }
     const cartCheck = (item) => {
         let list = [];
         const x = { id: item._id, pname: item.product_name, pimg: item.product_image, price: item.product_cost, quantity: 1 };
@@ -111,7 +132,7 @@ export default function Products() {
                             inline
                             className='w-100'
                             label={val.color_name}
-                            name="color"
+                            name="color_id"
                             type='radio'
                             value={val._id}
                             id={val.color_code}
@@ -125,7 +146,7 @@ export default function Products() {
                             inline
                             className='w-100'
                             label={val.category_name}
-                            name="category"
+                            name="category_id"
                             type='radio'
                             value={val._id}
                             id={val.category_image}
@@ -140,6 +161,7 @@ export default function Products() {
                 {err.show && <Alert variant="danger" className='mx-auto w-75 my-3' onClose={() => setErr({ msg: "", show: false })} dismissible>
                     <Alert.Heading>{err.msg}</Alert.Heading>
                 </Alert>}
+                <p className='text-end pe-5' style={{ fontSize: "25px" }}>Sort : <i class="bi bi-star-fill text-dark" style={{ cursor: 'pointer' }} onClick={sortByRating}></i>&nbsp; &#8377;<i class="bi bi-arrow-down text-dark" style={{ cursor: 'pointer' }} onClick={sortByPriceDown}></i>&nbsp; &#8377;<i class="bi bi-arrow-up text-dark" style={{ cursor: 'pointer' }} onClick={sortByPriceUP}></i></p>
                 <PaginatedItems itemsPerPage={9} />
             </div>
         </div >

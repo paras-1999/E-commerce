@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { authenticationCall, placeOrder } from '../config/Myservice';
+import { authenticationCall, placeOrder, getAddress } from '../config/Myservice';
 import { useDispatch } from 'react-redux'
 import jwt_decode from 'jwt-decode'
 import { setCart } from '../redux/action';
-import { Alert, Button } from 'react-bootstrap';
+import { Alert, Button, Form } from 'react-bootstrap';
 const regForName = RegExp(/^[A-Z a-z]{4,29}$/);
 export default function Checkout() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [addlist, setAddlist] = useState([]);
     const location = useLocation();
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0);
+    const [add, setAdd] = useState(null);
     const [err, setErr] = useState({ msg: "", show: false });
     useEffect(() => {
         if (sessionStorage.getItem('_token') != undefined) {
@@ -22,15 +24,30 @@ export default function Checkout() {
             })
         }
         else {
-            alert('login First');
-            navigate('/LogInSignUp')
+            if (window.confirm('Login to Checkout')) {
+                navigate('/LoginSignup')
+            }
+            else {
+                navigate('/')
+            }
+            window.location.reload(false);
         }
         setTotal(location.state)
+        let token = sessionStorage.getItem("_token");
+        let decode = jwt_decode(token);
+        getAddress(decode.email).then(res => {
+            if (res.data != null) {
+                setAddlist(res.data)
+            }
+            else {
+                alert('add an address first')
+                navigate('/profile/address')
+            }
+        })
 
     }, [])
     const checkout = () => {
         setErr({ msg: "", show: false });
-
         let cardno = document.getElementById('set1').value + document.getElementById('set2').value + document.getElementById('set3').value + document.getElementById('set4').value;
         let cvv = document.getElementById('cvv').value;
         let name = document.getElementById('holder').value;
@@ -43,11 +60,14 @@ export default function Checkout() {
         else if (cvv.length != 3) {
             setErr({ msg: "Enter Vaild cvv", show: true });
         }
+        else if (!add) {
+            setErr({ msg: "Select an address", show: true });
+        }
         else {
             let token = sessionStorage.getItem("_token");
             let decode = jwt_decode(token);
             let list = JSON.parse(localStorage.getItem('cart'));
-            let order = { email: decode.email, orderlist: list, total: total };
+            let order = { email: decode.email, orderlist: list, total: total, address: add };
             placeOrder(order).then(res => {
                 alert(res.data)
                 localStorage.removeItem('cart');
@@ -80,12 +100,18 @@ export default function Checkout() {
                 </div>
             </div>
             <div className='bill '>
+                <Form.Select size="lg" onChange={(e) => { setAdd(e.target.value) }} >
+                    <option>Select an Address</option>
+                    {addlist.map((val, i) =>
+                        <option key={i} >{val.address},{val.pin},{val.city},{val.state},{val.country}</option>
+                    )}
+                </Form.Select>
                 <h1>Bill :</h1>
                 <h5>Total : &#8377;{total}</h5>
                 <h5>GST (18%) : &#8377;{Math.floor(total * .18)}</h5>
                 <h5>Delivery : &#8377;0</h5>
                 <h4 className='text-info'>Grand Total : <span className='text-danger'>&#8377;{Math.floor(total + (.18 * total))}</span></h4>
-                <Button variant='danger' className='mt-3 w-100 ' onClick={checkout}>Pay </Button>
+                <Button variant='danger' className='mt-1 w-100 ' onClick={checkout}>Pay </Button>
 
             </div>
         </div>

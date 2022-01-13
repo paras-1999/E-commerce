@@ -213,12 +213,17 @@ router.get('/verfiy', autenticateToken, (req, res) => {
     res.json({ "err": 0 })
 
 })
-
 router.post('/placeorder', (req, res) => {
     let ins = new orderModel({ ...req.body });
     ins.save((err) => {
         if (err) { res.send("Something went worng Order is not placed") }
         else { res.send('Order Placed Continue Shoping ') }
+    })
+})
+router.get('/getorder/:mail', (req, res) => {
+    orderModel.find({ email: req.params.mail }).exec((err, data) => {
+        if (err) throw err;
+        res.send(data)
     })
 })
 module.exports = router;

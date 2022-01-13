@@ -69,7 +69,7 @@ export default function NavigationBar() {
                         <Nav className="me-auto text-light">
                             <Nav.Link as={Link} to="/" >Home</Nav.Link>
                             <Nav.Link as={Link} to="/products" >Products</Nav.Link>
-                            <Nav.Link as={Link} to="/orders" >Order</Nav.Link>
+                            <Nav.Link as={Link} to="/orders" disabled={sessionStorage.getItem('_token') != undefined ? false : true} >Order</Nav.Link>
 
                         </Nav>
                         <Nav>

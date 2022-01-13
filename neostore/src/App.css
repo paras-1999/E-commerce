@@ -44,8 +44,8 @@ input {
 }
 
 ::placeholder {
-  color: white;
-  opacity: 80%;
+  color: white !important;
+  opacity: 80% !important;
 }
 
 input:-webkit-autofill,
@@ -205,17 +205,26 @@ a {
 
 .pagi+ul {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   list-style: none;
   margin: 20px auto;
-  width: 40%;
+  padding: 0;
+  /* width: 40%; */
 }
 
 .pagi+ul>li {
+  /* border: 2px solid rgba(13, 202, 240);
+  min-width: 30px;
+  border-radius: 15px;
+  padding: 2px;
+  box-sizing: border-box;
+  text-align: center;
+  color: rgba(13, 202, 240); */
   border: 2px solid rgba(13, 202, 240);
   min-width: 30px;
   border-radius: 15px;
   padding: 2px;
+  margin: auto 5px;
   box-sizing: border-box;
   text-align: center;
   color: rgba(13, 202, 240);
@@ -494,7 +503,7 @@ a {
 }
 
 .bill {
-  padding: 20px 50px
+  padding: 10px 50px
 }
 
 .debitcard {
@@ -586,4 +595,73 @@ a {
   letter-spacing: 5px;
   padding-left: 7px;
 
+}
+
+.olist {
+  width: 95%;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin: 20px auto;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.olist>button {
+  position: absolute;
+  inset: auto 20px 20px auto;
+}
+
+.olist>hr {
+  width: 95%;
+  margin: 5px auto;
+  height: 4px !important;
+  border-radius: 4px;
+  background-color: rgba(13, 202, 240);
+}
+
+.invoice {
+  width: 80%;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+
+.invoice hr {
+  width: 90%;
+  margin: 10px auto;
+  height: 2px !important;
+}
+
+.invoice>h2 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 45px;
+  margin: 0px auto;
+}
+
+.invoice>p {
+  width: 30%;
+  margin: 5px auto;
+}
+
+.invoice #contact {
+  display: flex !important;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.magnifier-image {
+
+  width: auto !important;
+
+}
+
+.magnifier {
+  width: max-content !important;
+}
+
+.homecat {
+  height: 200px;
+  width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin: 0 auto;
 }

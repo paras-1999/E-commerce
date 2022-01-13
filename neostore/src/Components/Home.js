@@ -1,5 +1,5 @@
 import React from 'react'
-import { Carousel } from 'react-bootstrap'
+import { Carousel, Col, Row } from 'react-bootstrap'
 const thumbnail = ['shoes.jpg', 'tshirt.jpg', 'iwatch.jpg', 'iphone.jpeg'];
 export default function Home() {
     return (
@@ -24,6 +24,9 @@ export default function Home() {
                     </Carousel.Item>
                 )}
             </Carousel>
+            <Row className='cantainer-fluid'>
+                <Col sm={12} md={3} lg={3}><div className='homecat'></div></Col>
+            </Row>
         </>
     )
 }

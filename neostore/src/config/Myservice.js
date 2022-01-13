@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { MAIN_URL } from './Url';
-// let token = sessionStorage.getItem("_token")
 export function addloger(data) {
     return axios.post(`${MAIN_URL}user/signup`, data);
 }
@@ -63,8 +62,6 @@ export function authenticationCall(token) {
 export function placeOrder(data) {
     return axios.post(`${MAIN_URL}user/placeorder`, data);
 }
-// export function getmenu(token) {
-//     return axios.get(`${MAIN_URL}getmenu`, {
-//         headers: { "authorization": `Bearer ${token}` }
-//     });
-// }
+export function getOrder(email) {
+    return axios.get(`${MAIN_URL}user/getorder/${email}`);
+}
