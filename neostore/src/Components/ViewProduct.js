@@ -1,25 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Button, Col, Row, Alert } from 'react-bootstrap';
-import { viewProduct } from '../config/Myservice';
+import { rater, viewProduct } from '../config/Myservice';
 import { FacebookShareButton, TwitterShareButton, EmailShareButton, WhatsappShareButton, PinterestShareButton } from "react-share";
 import { FacebookIcon, TwitterIcon, EmailIcon, PinterestIcon, WhatsappIcon } from "react-share";
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/action'
 import Magnifier from "react-magnifier";
-import Rating from './Rating';
+import { Rating } from 'react-simple-star-rating'
 export default function ViewProduct() {
     const [details, setDetails] = useState(null);
     const [err, setErr] = useState({ msg: "", show: false });
     const [index, setIndex] = useState(0);
     const dispatch = useDispatch();
     const location = useLocation();
+    const [rating, setRating] = useState(0)
+    const [done, setDone] = useState(false)
+    const handleRating = (rate) => {
+        let newRating = Math.ceil((details.product_rating + (rate / 20)) / 2)
+        setDetails(preVal => { return { ...preVal, product_rating: newRating, product_rating_count: preVal.product_rating_count + 1 } })
+        let up = { product_rating: newRating, product_rating_count: details.product_rating_count + 1 };
+        rater(up, details._id).then(res => {
+            alert(res.data)
+        })
+        setRating(rate)
+        setDone(true)
+    }
     useEffect(() => {
         viewProduct(location.search).then((res => {
-            console.log(res.data)
             setDetails(res.data)
         }))
-
     }, [])
     const cartCheck = (item) => {
         let list = [];
@@ -35,7 +45,6 @@ export default function ViewProduct() {
                 localStorage.setItem('cart', JSON.stringify(list));
                 dispatch(addToCart());
             }
-
         }
         else {
             list.push(x)
@@ -60,14 +69,10 @@ export default function ViewProduct() {
                     </Col>
                     <Col sx={12} md={7} lg={7}>
                         <h1>{details.product_name}</h1>
-                        <Rating count={details.product_rating} />
+                        <Rating ratingValue={details.product_rating * 20} fillColor='#14BDEB' readonly={true} />
                         <hr />
                         <h5>Price : ₹<span className='text-success'>{details.product_cost}</span></h5>
                         <h5>Color : <span style={{ display: "inline-block", height: '20px', width: "50px", borderRadius: "10px", background: details.color_id.color_code }} ></span></h5>
-                        {/* <ShareSocial
-                    url="https://github.com/paras-1999"
-                    socialTypes={['facebook', 'twitter', 'reddit', 'linkedin']}
-                /> */}
                         <h5 style={{ display: "inline-block" }}>Share </h5> <i className="bi bi-share-fill text-dark" style={{ fontSize: "30px", display: "inline-block" }}></i>
                         <div style={{ display: "flex", width: "40%", justifyContent: "space-between", marginBottom: "20px" }}>
                             <FacebookShareButton
@@ -95,14 +100,14 @@ export default function ViewProduct() {
                             </WhatsappShareButton>
 
                             <PinterestShareButton
-                                // url={"https://github.com/paras-1999"}
                                 url={`http://localhost:3000/images/${details.product_subimages[0]}`}
                             >
                                 <PinterestIcon size={50} round />
                             </PinterestShareButton>
                         </div>
-                        <Button variant='danger' onClick={() => cartCheck(details)}>Add To Cart <i className="bi bi-cart2" ></i></Button>
-                        <Button variant='dark' className='m-2 text-info'>Rate Product <i className="bi bi-star-fill text-info"></i></Button>
+                        <Button variant='danger' className='me-3' size='lg' onClick={() => cartCheck(details)}>Add To Cart <i className="bi bi-cart2" ></i></Button>
+                        <Button variant='dark' className='m-2 text-info'>Rate Product <Rating onClick={handleRating} ratingValue={rating} fillColor='#14BDEB' size={34} transition={true} readonly={done} /></Button>
+
                         <h5>Description : </h5>
                         <ul>
                             <li>Category : {details.category_id.category_name}</li>

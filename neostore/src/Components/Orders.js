@@ -36,7 +36,7 @@ export default function Orders() {
                     <p>Total Amount : &#8377;{Math.floor(val.total + (val.total * .18))}</p>
                     <hr />
                     {val.orderlist.map((img, i) =>
-                        <img src={`./images/${img.pimg}`} height={100} width={100} style={{ margin: 10, borderRadius: 8 }} />
+                        <img key={i} src={`./images/${img.pimg}`} height={100} width={100} style={{ margin: 10, borderRadius: 8 }} />
                     )}
                     <Button variant='danger' onClick={() => { setShow(true); setBill(val) }}>View Invoice Details</Button>
                 </div>

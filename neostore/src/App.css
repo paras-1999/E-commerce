@@ -660,8 +660,24 @@ a {
 }
 
 .homecat {
-  height: 200px;
-  width: 200px;
+  border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin: 0 auto;
+  text-align: center;
+}
+
+.homecat>span {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  margin: 0px 4px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.homecat>span:active {
+  box-shadow: none;
+  transform: scale(0.9);
 }

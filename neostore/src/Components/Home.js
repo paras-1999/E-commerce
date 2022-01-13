@@ -1,9 +1,22 @@
-import React from 'react'
-import { Carousel, Col, Row } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react';
+import { Carousel, Col, Row } from 'react-bootstrap';
+import { getCategories, getColors } from '../config/Myservice';
+import { useNavigate } from 'react-router-dom';
 const thumbnail = ['shoes.jpg', 'tshirt.jpg', 'iwatch.jpg', 'iphone.jpeg'];
 export default function Home() {
+    const [cat, setCat] = useState([]);
+    const [color, setColor] = useState([]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        getCategories().then(res => {
+            setCat(res.data)
+        })
+        getColors().then(res => {
+            setColor(res.data)
+        })
+    }, [])
     return (
-        <>
+        < >
             <Carousel>
                 {thumbnail.map((img, i) =>
                     <Carousel.Item key={i}>
@@ -24,8 +37,16 @@ export default function Home() {
                     </Carousel.Item>
                 )}
             </Carousel>
-            <Row className='cantainer-fluid'>
-                <Col sm={12} md={3} lg={3}><div className='homecat'></div></Col>
+            <Row className='container my-4 mx-auto'>
+                {cat.map((val, i) =>
+
+                    <Col sm={12} md={3} lg={3} key={i}><div className='homecat'><img src={`./images/${val.category_image}`} width="80%" height='80%' style={{ cursor: 'pointer' }} onClick={() => { navigate(`products?&category_id=${val._id}`) }} />
+                        <h6>{val.category_name}</h6>
+                        {color.map((col, j) => {
+                            return (<span key={j} style={{ backgroundColor: col.color_code }} onClick={() => navigate(`products?color_id=${col._id}&category_id=${val._id}`)}></span>)
+                        })}
+                    </div></Col>
+                )}
             </Row>
         </>
     )

@@ -161,7 +161,7 @@ export default function Products() {
                 {err.show && <Alert variant="danger" className='mx-auto w-75 my-3' onClose={() => setErr({ msg: "", show: false })} dismissible>
                     <Alert.Heading>{err.msg}</Alert.Heading>
                 </Alert>}
-                <p className='text-end pe-5' style={{ fontSize: "25px" }}>Sort : <i class="bi bi-star-fill text-dark" style={{ cursor: 'pointer' }} onClick={sortByRating}></i>&nbsp; &#8377;<i class="bi bi-arrow-down text-dark" style={{ cursor: 'pointer' }} onClick={sortByPriceDown}></i>&nbsp; &#8377;<i class="bi bi-arrow-up text-dark" style={{ cursor: 'pointer' }} onClick={sortByPriceUP}></i></p>
+                <p className='text-end pe-5' style={{ fontSize: "25px" }}>Sort : <i className="bi bi-star-fill text-dark" style={{ cursor: 'pointer' }} onClick={sortByRating}></i>&nbsp; &#8377;<i className="bi bi-arrow-down text-dark" style={{ cursor: 'pointer' }} onClick={sortByPriceDown}></i>&nbsp; &#8377;<i className="bi bi-arrow-up text-dark" style={{ cursor: 'pointer' }} onClick={sortByPriceUP}></i></p>
                 <PaginatedItems itemsPerPage={9} />
             </div>
         </div >

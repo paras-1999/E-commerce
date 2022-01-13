@@ -65,3 +65,6 @@ export function placeOrder(data) {
 export function getOrder(email) {
     return axios.get(`${MAIN_URL}user/getorder/${email}`);
 }
+export function rater(data, id) {
+    return axios.put(`${MAIN_URL}products/rating/${id}`, data);
+}
