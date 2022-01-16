@@ -4,7 +4,6 @@ import { getUser, resetPASS, updateProfile } from '../config/Myservice';
 import { Form, FloatingLabel, Button, Alert } from 'react-bootstrap';
 const regForPass = RegExp(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/);
 export default function ChangePass() {
-
     const [user, setUser] = useState({ email: null, oldpass: null, newpass: null, rnewpass: null });
     const [err, setErr] = useState({ msg: "", show: false });
     const [showpass, setShowpass] = useState({ oldpass: false, newpass: false, rnewpass: false });
@@ -13,6 +12,7 @@ export default function ChangePass() {
         let decode = jwt_decode(token);
         setUser({ ...user, email: decode.email });
     }, [])
+    //function to reset password
     const resetpass = (e) => {
         e.preventDefault();
         setErr({ msg: "", show: false });
@@ -30,9 +30,9 @@ export default function ChangePass() {
         }
         else {
             resetPASS(user).then(res => {
-                console.log(res.data)
                 if (res.data.show) {
                     setErr(res.data);
+                    window.location.reload(false)
                 }
             })
         }

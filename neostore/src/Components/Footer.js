@@ -18,7 +18,7 @@ export default function Footer() {
                     <p>Gurantee & Return Policy</p>
                     <p>Contact Us</p>
                     <p>Privacy Policy</p>
-                    <p>Locate Us</p>
+                    <p><a href='https://www.google.com/maps/place/NeoSOFT+Technologies/@19.024365,72.844281,15z/data=!4m5!3m4!1s0x0:0x781b6db9b065f3c0!8m2!3d19.024365!4d72.844281' target='_blank'>Locate Us</a></p>
                 </Col>
                 <Col sm={12} md={4} className='footer' >
                     <h4>Newsletter</h4>

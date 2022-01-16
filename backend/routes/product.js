@@ -66,6 +66,12 @@ prouter.put('/rating/:id', async (req, res) => {
     await up.save();
     res.send("Thanks For The Rating")
 })
+prouter.post("/search", (req, res) => {
+    productModel.find({ product_name: { $regex: req.body.data, $options: '$i' } }, "product_name")
+        .then(response => {
+            res.json(response)
+        })
+})
 module.exports = prouter;
 
 // prouter.get('/all', (req, res) => {

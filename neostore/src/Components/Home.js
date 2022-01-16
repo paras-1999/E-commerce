@@ -7,6 +7,7 @@ export default function Home() {
     const [cat, setCat] = useState([]);
     const [color, setColor] = useState([]);
     const navigate = useNavigate();
+    //fetch call for categories and colors
     useEffect(() => {
         getCategories().then(res => {
             setCat(res.data)

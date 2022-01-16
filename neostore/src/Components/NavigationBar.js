@@ -1,14 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
+import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, InputGroup, Collapse } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCart } from '../redux/action';
 import jwt_decode from 'jwt-decode'
-import { pendingCart, pendingList } from '../config/Myservice';
+import { getsearch, pendingCart, pendingList } from '../config/Myservice';
 export default function NavigationBar() {
     const count = useSelector((state) => state.cartReducer);
     const dispatch = useDispatch();
-    const naviagte = useNavigate()
+    const naviagte = useNavigate();
+    const [inputText, setInputText] = useState(null)
+    const [show, setShow] = useState(false);
+    const [searchList, setSearchList] = useState([]);
+    const search = (searchvalue) => {
+        if (searchvalue.length > 0) {
+            getsearch({ 'data': searchvalue })
+                .then(res => {
+                    if (res.data.length != 0) {
+                        setSearchList(res.data)
+                        console.log(res.data)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+        else {
+            setSearchList([])
+        }
+    }
     useEffect(() => {
         let items;
         if (sessionStorage.getItem('_token') != undefined) {
@@ -73,16 +91,33 @@ export default function NavigationBar() {
 
                         </Nav>
                         <Nav>
-                            <Form className="d-flex">
-                                <FormControl
-                                    type="search"
-                                    placeholder="Search"
-                                    className="me-2 "
-                                    aria-label="Search"
-                                    style={{ width: '20vw' }}
-
-                                />
-                                <Button variant="outline-light mt-2" style={{ height: '38px' }}><i className="bi bi-search" style={{ color: 'inherit' }}></i></Button>
+                            <Form className="d-flex position-relative" onSubmit={(e) => e.preventDefault()}>
+                                <InputGroup>
+                                    <Form.Group>
+                                        <FormControl
+                                            id='search'
+                                            type="text"
+                                            placeholder="Search"
+                                            className="me-2"
+                                            aria-label="Search"
+                                            onChange={(e) => { search(e.target.value); setInputText(e.target.value) }}
+                                            onFocus={() => setShow(true)}
+                                            onBlur={() => setShow(false)}
+                                            aria-expanded={show}
+                                        />
+                                        {inputText && inputText.length > 0 &&
+                                            <Collapse className="position-absolute p-3 w-100" in={show} >
+                                                <div style={{ maxHeight: '25vh', overflow: 'auto', backgroundColor: 'white', zIndex: 1 }}>
+                                                    {
+                                                        searchList.map((ele, i) =>
+                                                            <p key={i} style={{ cursor: 'pointer' }} onClick={() => { naviagte(`/viewdetails?_id=${ele._id}`); window.location.reload(false) }}>&nbsp;{ele.product_name}</p>
+                                                        )
+                                                    }
+                                                </div>
+                                            </Collapse>
+                                        }
+                                    </Form.Group>
+                                </InputGroup>
                             </Form>
                             <Nav.Link as={Link} to="/cart" style={{ marginLeft: '0.5rem' }}><i className="bi bi-cart2 position-relative" style={{ fontSize: "26px" }}><span style={{ fontSize: "12px" }} className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{count}</span></i>
                             </Nav.Link>

@@ -29,6 +29,7 @@ export default function UpdateProfile() {
         else {
             updateProfile(profile).then(res => {
                 setErr(res.data)
+                window.location.reload(false)
             })
         }
     }

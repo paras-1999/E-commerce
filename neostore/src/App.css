@@ -677,7 +677,15 @@ a {
   transition: .2s;
 }
 
+input#search::placeholder {
+  color: black !important;
+}
+
 .homecat>span:active {
   box-shadow: none;
   transform: scale(0.9);
+}
+
+.disabled {
+  opacity: .5;
 }

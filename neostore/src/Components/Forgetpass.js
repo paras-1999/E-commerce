@@ -10,6 +10,7 @@ export default function Forgetpass() {
     const [err, setErr] = useState({ msg: "", show: false });
     const [showpass, setShowpass] = useState({ pass: false, rpass: false });
     const navigate = useNavigate()
+    //function to send otp to mail
     const sendotp = () => {
         if (!user.email || !regForEmail.test(user.email)) {
             setErr({ msg: "Enter A Valid Email", show: true });
@@ -26,6 +27,7 @@ export default function Forgetpass() {
             })
         }
     }
+    //function to verfy the otp n backend
     const verifyotp = () => {
         if (!user.otp || (parseInt(user.otp) < 1000 || parseInt(user.otp) > 9999)) {
             setErr({ msg: "Enter A Valid OTP", show: true });
@@ -42,6 +44,7 @@ export default function Forgetpass() {
             })
         }
     }
+    // function to reset the password
     const changepass = () => {
         if (!user.pass || !regForPass.test(user.pass)) {
             setErr({ msg: "6-16 Digit Password Atleast One Uppercase Lowercase & Special Character", show: true });

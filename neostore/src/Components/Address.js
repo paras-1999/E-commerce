@@ -11,6 +11,7 @@ export default function Address() {
     const [city, setCity] = useState([]);
     const [addlist, setAddlist] = useState([]);
     const [email, setEmail] = useState(null)
+    //fetching address form the database if available
     useEffect(() => {
         let token = sessionStorage.getItem("_token");
         let decode = jwt_decode(token);
@@ -20,20 +21,23 @@ export default function Address() {
         })
 
     }, [])
+    //api call to fetch states
     const getstates = () => {
         axios.get("https://www.universal-tutorial.com/api/states/India", {
-            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnMxMjNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiTFJWbnF5aHhIUU5nWWdnRExEWGJ6NGoxNVVQSFhaaUFaLWlfb3o1amF1M0ZrQk5EelVFTlRXWXdha2ZRdUFCU3hBYyJ9LCJleHAiOjE2NDE1NTA0NjF9.cuHoxme3xNIFHfsb7UqJy8amNLnCsW5Hip_nWf1Kv0M` }
+            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoialdzbzZTVlVuVlFZVmV1YXBxRnhyeXZIU2gyRDFHYXZSX0ROVG1oTnlXN0FOTlpXN05XZTRqRE5fZjY1aEJlTjBpcyJ9LCJleHAiOjE2NDI0NDE4Nzl9.m3W0lAkGOdN5dyRNvyOde-V7CnKjaQfHJEA97GaWseM` }
         }).then(res => {
             setStates(res.data);
         })
     }
+    //api call to fetch corresponding citys
     const getcitys = (s) => {
         axios.get(`https://www.universal-tutorial.com/api/cities/${s}`, {
-            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnMxMjNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiTFJWbnF5aHhIUU5nWWdnRExEWGJ6NGoxNVVQSFhaaUFaLWlfb3o1amF1M0ZrQk5EelVFTlRXWXdha2ZRdUFCU3hBYyJ9LCJleHAiOjE2NDE1NTA0NjF9.cuHoxme3xNIFHfsb7UqJy8amNLnCsW5Hip_nWf1Kv0M` }
+            headers: { "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJuc3Rjb2RlcnNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoialdzbzZTVlVuVlFZVmV1YXBxRnhyeXZIU2gyRDFHYXZSX0ROVG1oTnlXN0FOTlpXN05XZTRqRE5fZjY1aEJlTjBpcyJ9LCJleHAiOjE2NDI0NDE4Nzl9.m3W0lAkGOdN5dyRNvyOde-V7CnKjaQfHJEA97GaWseM` }
         }).then(res => {
             setCity(res.data);
         })
     }
+    //adding address to the data base
     const addaddress = () => {
         console.log(address)
         if (!address.address || address.address.length < 10) {
@@ -52,8 +56,6 @@ export default function Address() {
             let temp = [...addlist]
             temp.push(address)
             setAddlist(temp)
-            // let token = sessionStorage.getItem("_token");
-            // let decode = jwt_decode(token);
             addAddress(address, email).then(res => {
                 if (res.data.show) {
                     setErr(res.data);
@@ -70,6 +72,7 @@ export default function Address() {
 
         }
     }
+    // removing address from the Database
     const removeadd = (i) => {
         let temp = [...addlist];
         temp.splice(i, 1);

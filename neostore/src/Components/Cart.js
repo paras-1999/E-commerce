@@ -9,6 +9,7 @@ export default function Cart() {
     const navigate = useNavigate();
     const count = useSelector((state) => state.cartReducer);
     const dispatch = useDispatch();
+    //fetching the item list from the localStorage
     useEffect(() => {
         if (localStorage.getItem('cart') != undefined) {
             let list = JSON.parse(localStorage.getItem('cart'));
@@ -16,6 +17,7 @@ export default function Cart() {
             countTotal(list);
         }
     }, [])
+    //function to calculate total 
     const countTotal = (items) => {
         let total = 0;
         items.map((val) => {
@@ -23,6 +25,7 @@ export default function Cart() {
         })
         setTotal(total);
     }
+    //function to remove item form the cart
     const removeitem = (i) => {
         let temp = [...items];
         temp.splice(i, 1);
@@ -31,6 +34,7 @@ export default function Cart() {
         localStorage.setItem('cart', JSON.stringify(temp))
         dispatch(removeFromCart());
     }
+    //function to increase quantity od a item
     const incq = (i) => {
         let temp = [...items];
         temp[i].quantity++;
@@ -38,6 +42,7 @@ export default function Cart() {
         countTotal(temp);
         localStorage.setItem('cart', JSON.stringify(temp))
     }
+    //function to decrease quantity od a item
     const decq = (i) => {
         let temp = [...items];
         temp[i].quantity--;

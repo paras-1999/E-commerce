@@ -41,7 +41,7 @@ router.post('/signup', (req, res) => {
     })
 })
 router.post('/login', (req, res) => {
-    // console.log(req.body)
+
     logerModel.findOne({ email: req.body.email }).exec((err, data) => {
         if (err) {
             res.json({ "show": true, "msg": "Email or password is not correct" })
@@ -60,7 +60,8 @@ router.post('/login', (req, res) => {
                 let payload = {
                     fname: data.fname,
                     lname: data.lname,
-                    email: data.email
+                    email: data.email,
+                    social: false
                 }
                 const token = jwt.sign(payload, jwtSecret, { expiresIn: 360000 })
                 res.json({ "show": false, "msg": "Login Success", "token": token })
@@ -70,11 +71,12 @@ router.post('/login', (req, res) => {
     })
 })
 router.post("/sociallogin", (req, res) => {
-    // console.log(req.body)
+
     let payload = {
         fname: req.body.fname,
         lname: req.body.lname,
-        email: req.body.email
+        email: req.body.email,
+        social: true
     }
     const token = jwt.sign(payload, jwtSecret, { expiresIn: 360000 })
     logerModel.findOne({ email: req.body.email }).exec((err, data) => {
@@ -169,7 +171,7 @@ router.put('/updateprofile', async (req, res) => {
     res.json({ "show": true, "msg": "Data updated" })
 })
 router.put('/resetpass', async (req, res) => {
-    // console.log(req.body)
+
     logerModel.findOne({ email: req.body.email }).exec(async (err, data) => {
         if (err) {
             res.json({ "show": true, "msg": "Something went wrong refresh and try again" })
@@ -204,7 +206,6 @@ router.get("/getaddress/:email", (req, res) => {
     })
 })
 router.put('/removeaddress/:email', async (req, res) => {
-    console.log(req.body, req.params.email)
     let up = await logerModel.findOneAndUpdate({ email: req.params.email }, { address: req.body })
     await up.save();
     res.json({ "show": true, "msg": "Removed" })

@@ -65,7 +65,6 @@ export default function LogInSignUp() {
         }
         else {
             loguser({ email: log.email, pass: log.pass }).then(res => {
-                // console.log(res.data)
                 if (!res.data.show) {
                     sessionStorage.setItem("_token", res.data.token);
                     navigate('/');
@@ -86,7 +85,6 @@ export default function LogInSignUp() {
             email = user._profile.id
         }
         socialloger({ email: email, fname: user._profile.firstName, lname: user._profile.lastName }).then(res => {
-            // console.log(res.data)
             if (!res.data.show) {
                 sessionStorage.setItem("_token", res.data.token);
                 navigate('/');
@@ -100,7 +98,6 @@ export default function LogInSignUp() {
 
     };
     const handleSocialLoginFailure = (err) => {
-        // console.error(err);
         setLerr({ msg: "Something went Wrong Refresh And Try Again", show: true });
     };
     return (

@@ -14,6 +14,7 @@ export default function Products() {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    //fetch products categories and colors
     useEffect(() => {
         getproducts(location.search).then((res) => {
             setProducts(res.data)
@@ -46,6 +47,7 @@ export default function Products() {
         })
         setProducts(sortData)
     }
+    //add items in cart
     const cartCheck = (item) => {
         let list = [];
         const x = { id: item._id, pname: item.product_name, pimg: item.product_image, price: item.product_cost, quantity: 1 };
@@ -60,7 +62,6 @@ export default function Products() {
                 localStorage.setItem('cart', JSON.stringify(list));
                 dispatch(addToCart());
             }
-
         }
         else {
             list.push(x)
@@ -68,6 +69,7 @@ export default function Products() {
             dispatch(addToCart());
         }
     }
+    //display product with pagination
     function Items({ currentItems }) {
         return (
             <Row className='g-4 container-fluid my-1 pagi'>
@@ -87,6 +89,7 @@ export default function Products() {
             </Row>
         );
     }
+    //function to calculate the range for pagination 
     function PaginatedItems({ itemsPerPage }) {
         const [currentItems, setCurrentItems] = useState(null);
         const [pageCount, setPageCount] = useState(0);
@@ -107,14 +110,14 @@ export default function Products() {
         };
         return (
             <>
-                <Items currentItems={currentItems} />
+                <Items currentItems={currentItems} /> {/*product display */}
                 <ReactPaginate
                     breakLabel="..."
                     nextLabel={`Next`}
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={3}
                     pageCount={pageCount}
-                    previousLabel=" Previous "
+                    previousLabel="Previous"
                     renderOnZeroPageCount={null}
                 />
             </>

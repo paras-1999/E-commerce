@@ -14,6 +14,7 @@ export default function Checkout() {
     const [total, setTotal] = useState(0);
     const [add, setAdd] = useState(null);
     const [err, setErr] = useState({ msg: "", show: false });
+    //checking the token is autherise or not & the user is logge in or not 
     useEffect(() => {
         if (sessionStorage.getItem('_token') != undefined) {
             authenticationCall(sessionStorage.getItem("_token")).then(res => {
@@ -36,7 +37,7 @@ export default function Checkout() {
         let token = sessionStorage.getItem("_token");
         let decode = jwt_decode(token);
         getAddress(decode.email).then(res => {
-            if (res.data != null) {
+            if (res.data.length) {
                 setAddlist(res.data)
             }
             else {
@@ -44,8 +45,8 @@ export default function Checkout() {
                 navigate('/profile/address')
             }
         })
-
     }, [])
+    //function to confirm order
     const checkout = () => {
         setErr({ msg: "", show: false });
         let cardno = document.getElementById('set1').value + document.getElementById('set2').value + document.getElementById('set3').value + document.getElementById('set4').value;
@@ -112,7 +113,6 @@ export default function Checkout() {
                 <h5>Delivery : &#8377;0</h5>
                 <h4 className='text-info'>Grand Total : <span className='text-danger'>&#8377;{Math.floor(total + (.18 * total))}</span></h4>
                 <Button variant='danger' className='mt-1 w-100 ' onClick={checkout}>Pay </Button>
-
             </div>
         </div>
     </>

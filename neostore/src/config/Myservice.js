@@ -68,3 +68,6 @@ export function getOrder(email) {
 export function rater(data, id) {
     return axios.put(`${MAIN_URL}products/rating/${id}`, data);
 }
+export function getsearch(data) {
+    return axios.post(`${MAIN_URL}products/search`, data);
+}
